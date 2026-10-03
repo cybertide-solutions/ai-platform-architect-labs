@@ -1,0 +1,6 @@
+question,expected_answer,source_doc
+How many days of paid annual leave do full-time employees get?,24 days per year,01_leave_policy.pdf
+What is the hotel limit per night in Mumbai?,"INR 7,000 per night",02_travel_expense_policy.pdf
+How many days a week can hybrid employees work remotely?,Up to 2 days per week,03_remote_work_policy.pdf
+What is the minimum password length?,14 characters,04_information_security_policy.pdf
+Up to what amount can an agent approve a refund without a team lead?,"INR 5,000",05_refund_returns_policy.pdf

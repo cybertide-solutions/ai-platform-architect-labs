@@ -1,0 +1,21 @@
+ticket,category,priority
+"I was charged twice for order 55812, please fix",billing,high
+My parcel shows delivered but I never got it,delivery,high
+How do I change my registered email address?,account,low
+The blender I bought stopped working after 3 days,returns,medium
+App crashes every time I open the cart on Android,technical,medium
+Can I return a shirt that does not fit? Bought it 2 weeks ago,returns,low
+"Payment debited but order not created, 4,999 rupees gone",billing,high
+Someone logged into my account from another city,account,high
+"Delivery is 5 days late, no update from courier",delivery,medium
+Promo code SAVE10 is not applying at checkout,technical,low
+Need GST invoice for my last order for office reimbursement,billing,low
+"Wrong item delivered, ordered black shoes got brown",delivery,medium
+Forgot password and OTP is not coming on my phone,account,medium
+Refund for returned TV not received after 2 weeks,billing,high
+"Website very slow during checkout, page times out",technical,medium
+Milk packet was expired on delivery,returns,medium
+Please delete my account and all my data,account,medium
+Courier asked for extra money at the door,delivery,high
+"Is there an EMI option for orders above 10,000?",billing,low
+"Opened headphones box, sound only from one side",returns,medium

@@ -255,6 +255,21 @@ def _call(kwargs: dict, tag: str | None):
     raise RuntimeError(f"LLM call failed after retries: {err}")
 
 
+# "Reasoning" models think before answering, and that thinking counts against max_tokens.
+# With a small max_tokens they can return an EMPTY answer, so give them room and keep thinking short.
+REASONING_HINTS = ("gpt-oss", "qwen3", "deepseek-r1", "qwq", "gemini-2.5-flash", "gemini-2.5-pro", "gemini-3")
+REASONING_MIN_TOKENS = 2048
+
+
+def _tune_for_reasoning(kwargs: dict) -> dict:
+    m = kwargs["model"].lower()
+    if any(h in m for h in REASONING_HINTS) and "lite" not in m:
+        kwargs["max_tokens"] = max(kwargs.get("max_tokens") or 0, REASONING_MIN_TOKENS)
+        if "gpt-oss" in m:
+            kwargs["reasoning_effort"] = "low"
+    return kwargs
+
+
 def chat(prompt=None, *, system: str | None = None, messages: list | None = None, model: str = "big",
          temperature: float = 0.0, max_tokens: int = 800, json_mode: bool = False, tools: list | None = None,
          tag: str | None = None, raw: bool = False):
@@ -270,7 +285,7 @@ def chat(prompt=None, *, system: str | None = None, messages: list | None = None
         kwargs["response_format"] = {"type": "json_object"}
     if tools:
         kwargs["tools"] = tools
-    resp = _call(kwargs, tag)
+    resp = _call(_tune_for_reasoning(kwargs), tag)
     msg = resp.choices[0].message
     if tools or raw:
         return msg
@@ -299,7 +314,8 @@ def stream(prompt: str, *, system: str | None = None, model: str = "big") -> str
     """Print the reply token by token, as a chat UI would."""
     msgs = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": prompt}]
     out = []
-    for ev in client().chat.completions.create(model=model_name(model), messages=msgs, stream=True, temperature=0):
+    kwargs = _tune_for_reasoning({"model": model_name(model), "messages": msgs, "stream": True, "temperature": 0})
+    for ev in client().chat.completions.create(**kwargs):
         if ev.choices and ev.choices[0].delta and ev.choices[0].delta.content:
             piece = ev.choices[0].delta.content
             out.append(piece)

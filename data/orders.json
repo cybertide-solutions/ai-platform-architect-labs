@@ -1,0 +1,44 @@
+[
+  {
+    "id": "PO-101",
+    "tenant": "aster",
+    "supplier": "Nova",
+    "quarter": "2026-Q1",
+    "amount_minor": 5000000
+  },
+  {
+    "id": "PO-102",
+    "tenant": "aster",
+    "supplier": "Nova",
+    "quarter": "2026-Q1",
+    "amount_minor": 1500000
+  },
+  {
+    "id": "PO-103",
+    "tenant": "aster",
+    "supplier": "Delta",
+    "quarter": "2026-Q1",
+    "amount_minor": 2400000
+  },
+  {
+    "id": "PO-104",
+    "tenant": "aster",
+    "supplier": "Nova",
+    "quarter": "2026-Q2",
+    "amount_minor": 4200000
+  },
+  {
+    "id": "PO-105",
+    "tenant": "aster",
+    "supplier": "Delta",
+    "quarter": "2026-Q2",
+    "amount_minor": 3100000
+  },
+  {
+    "id": "PO-901",
+    "tenant": "beacon",
+    "supplier": "Nova",
+    "quarter": "2026-Q1",
+    "amount_minor": 99000000
+  }
+]

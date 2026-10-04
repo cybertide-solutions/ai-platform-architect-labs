@@ -1,11 +1,3 @@
-# Core packages for all labs (Python 3.10 to 3.13).
-# CrewAI and Google ADK (optional labs 8b and 8c) are installed by their own notebooks.
-openai>=1.40
-qdrant-client>=1.12
-model2vec>=0.4
-pypdf>=4.0
-python-dotenv>=1.0
-pandas>=2.0
-matplotlib>=3.7
-gradio>=4.40
-ipykernel>=6.0
+# Core code and CLI labs use Python 3.11+ standard library only.
+# Install Jupyter only for local notebook viewing/execution.
+jupyterlab>=4,<5

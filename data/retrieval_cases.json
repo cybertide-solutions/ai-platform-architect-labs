@@ -1,0 +1,50 @@
+[
+  {
+    "id": "K1",
+    "question": "standard supplier payment terms",
+    "principal": "buyer",
+    "source": "A-TERMS"
+  },
+  {
+    "id": "K2",
+    "question": "software security review trial subscriptions",
+    "principal": "buyer",
+    "source": "A-SOFTWARE"
+  },
+  {
+    "id": "K3",
+    "question": "bank account changes callback",
+    "principal": "buyer",
+    "source": "A-ONBOARD"
+  },
+  {
+    "id": "K4",
+    "question": "urgent emergency approver",
+    "principal": "buyer",
+    "source": "A-EXPEDITE"
+  },
+  {
+    "id": "K5",
+    "question": "negotiated discount schedule",
+    "principal": "finance",
+    "source": "A-DISCOUNT"
+  },
+  {
+    "id": "K6",
+    "question": "negotiated discount schedule",
+    "principal": "buyer",
+    "source": null
+  },
+  {
+    "id": "K7",
+    "question": "standard supplier payment terms",
+    "principal": "beacon",
+    "source": "B-TERMS"
+  },
+  {
+    "id": "K8",
+    "question": "annual holiday entitlement",
+    "principal": "buyer",
+    "source": null
+  }
+]

@@ -1,68 +1,72 @@
-# AI Platform: Solution Architect Programme (labs and handouts)
+# Enterprise AI Platform Architecture labs
 
-Five days, hands-on. You will build, measure, secure and operate a small AI assistant for a fictional company,
-**Meridian Retail**, and use it to learn the architecture decisions behind enterprise AI platforms.
+A fresh 36-hour programme for solution architects: twelve three-hour weekday sessions. Build two applications on a shared platform and use evidence to defend architecture decisions.
 
-**Start here:** follow [SETUP.md](SETUP.md), then run `00_setup_check`. It must end with **ALL CHECKS PASSED**.
+## Start here
 
-Every notebook runs unchanged in **Google Colab** and in **VS Code** on your laptop.
+1. Read `handouts/01-client-brief.md` and `handouts/02-learning-journey.md`.
+2. Complete `notebooks/00_preflight.ipynb` 3–5 working days before class.
+3. Work through notebooks 01–09 in session order. Session 1 is a workshop; sessions 11–12 use the capstone workbook.
+4. Keep your decisions, measurements and changes in `outputs/`. Never commit keys or sensitive customer data.
 
-## Daily handouts
-| Day | Theme | Handout |
-|---|---|---|
-| 1 | Foundations: the AI platform, LLM basics, model choices, prompts | [handouts/day1.md](handouts/day1.md) |
-| 2 | Knowledge: RAG, tools and agents | [handouts/day2.md](handouts/day2.md) |
-| 3 | Trust: evaluation, security, mini project | [handouts/day3.md](handouts/day3.md) |
-| 4 | Operate: deployment, monitoring, cost, architecture decisions | [handouts/day4.md](handouts/day4.md) |
-| 5 | Capstone | [handouts/day5_capstone.md](handouts/day5_capstone.md) |
+## Local setup
 
-Also: [assignments](handouts/assignments.md), [ADR template](handouts/adr_template.md), [glossary](handouts/glossary.md).
+Use Python 3.11 or later. The engine and software checks use the standard library. A notebook UI is optional:
 
-## Labs
-Click a badge to open the notebook in Google Colab.
-
-| Lab | Topic | Open |
-|---|---|---|
-| 00 | Setup check | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/00_setup_check.ipynb) |
-| 1 | Sketch the AI platform layers (worksheet in Day 1 handout) | n/a |
-| 2 | First LLM calls: tokens, JSON, streaming, two models | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab02_first_llm_call.ipynb) |
-| 3 | Model decision matrix | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab03_model_decision_matrix.ipynb) |
-| 4 | Prompt design, measured on 20 tickets | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab04_prompt_design.ipynb) |
-| 5 | RAG ingestion into Qdrant | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab05_rag_ingest.ipynb) |
-| 6 | Grounded answers, refusals, access control, chunk size | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab06_rag_answers.ipynb) |
-| 7 | Tool calling (and what MCP standardises) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab07_tool_calling.ipynb) |
-| 8 | Agent loop with a human approval gate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab08_agent_approval.ipynb) |
-| 8b | Optional: the same agent in CrewAI | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab08b_crewai.ipynb) |
-| 8c | Optional: the same agent in Google ADK | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab08c_google_adk.ipynb) |
-| 9 | Build a test set; LLM-as-judge | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab09_eval_set.ipynb) |
-| 10 | Release gate for prompt and model changes | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab10_safe_release.ipynb) |
-| 11 | Prompt injection attacks | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab11_prompt_injection.ipynb) |
-| 12 | Guardrails, PII masking, audit log | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab12_guardrails.ipynb) |
-| MP | Mini project: Policy Q&A Assistant (Day 3) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/mini_project.ipynb) |
-| 13 | Web UI and a shareable link | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab13_deploy_ui.ipynb) |
-| 14 | Traces, latency, cost forecast | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/lab14_monitoring_cost.ipynb) |
-| 15 | Write an ADR (worksheet in Day 4 handout) | n/a |
-| 16 | Review a reference architecture (worksheet in Day 4 handout) | n/a |
-
-## What is in this folder
-```
-labkit.py            shared helpers used by every lab (read it: it is short and commented)
-requirements.txt     Python packages for the labs
-data/policies/       10 policy PDFs of the fictional company Meridian Retail
-data/tickets.csv     20 labelled support tickets (Lab 4)
-data/eval_starter.csv  5 test questions (Labs 6, 9, 10)
-data/extra/          a poisoned document used in the security labs
-notebooks/           the labs
-handouts/            daily notes, worksheets, templates
+```sh
+python -m venv .venv
 ```
 
-## Technology used
-| Layer | Choice in the labs | Why |
-|---|---|---|
-| LLM | Groq free tier (Llama models), Gemini as backup | free, fast, OpenAI-compatible API |
-| LLM client | `openai` Python package | the de facto standard interface; works with most providers |
-| Embeddings | `model2vec` small open model | runs on any CPU, no GPU or heavy dependencies |
-| Vector database | Qdrant (local mode) | no account or server needed; the same code points at a Qdrant server in production |
-| UI | Gradio | a chat UI and a shareable link in a few lines |
+Activate `.venv` using your operating system's usual command, then:
 
-All company data in this course is fictional.
+```sh
+python -m pip install -r requirements.txt
+python scripts/start_jupyter.py
+```
+
+The launcher asks privately for live configuration and passes it to all notebook kernels in that Jupyter session. It writes no credential file. Choose N for software rehearsal. If you launch Jupyter another way, set the environment before launching it; values set inside one notebook kernel do not automatically reach another.
+
+Open a notebook from `notebooks/`. Run from the beginning. Each notebook creates its own small dataset/index; shared review artifacts are saved explicitly. Rerunning may overwrite those review artifacts, so copy reviewed results before regenerating them.
+
+Run software verification from the repository root:
+
+```sh
+python -m unittest discover -s tests -v
+python scripts/check_notebooks.py
+```
+
+The second command executes code cells in isolated Python processes without a notebook UI. It is a rehearsal check, not a test of Colab/Jupyter rendering or live APIs.
+
+## Colab setup
+
+Upload this ZIP to a new Colab session. Extract it with Python's `zipfile.ZipFile(...).extractall('/content')`; the ZIP contains a top-level `ai-platform-architect-labs` directory. Upload/open the desired notebook in Colab. Its setup cell locates `/content/ai-platform-architect-labs`. For repeatable Colab use, save CHAT_URL, CHAT_MODEL, CHAT_KEY, EMBED_URL, EMBED_MODEL and EMBED_KEY in Colab Secrets, grant notebook access, and set USE_COLAB_SECRETS=True in each notebook setup cell. Alternatively, use the private preflight prompt in each runtime; values do not automatically persist across separate runtimes. Alternatively, after this version is published, clone `https://github.com/cybertide-solutions/ai-platform-architect-labs` into `/content/ai-platform-architect-labs`. The existing repository is not assumed to have these files yet. Colab itself has not been exercised in the supplied verification.
+
+## Live AI configuration
+
+Set `LIVE_MODE=1` only after account and budget approval. Privately provide:
+
+| Variable | Meaning |
+| --- | --- |
+| CHAT_URL | HTTPS base URL for a compatible Chat Completions endpoint, without `/chat/completions` |
+| CHAT_MODEL | Exact approved model ID supporting JSON object output and native tools |
+| CHAT_KEY | Secret provider credential |
+| CHAT_MODEL_B | Optional second model at the same endpoint for comparison |
+| EMBED_URL / EMBED_MODEL / EMBED_KEY | Approved real embeddings endpoint and model |
+| CHAT_OPTIONS | Optional JSON object of tested provider-specific options; no model/messages/tools/response_format overrides |
+
+The adapter uses actual HTTPS requests. Compatibility must be tested for the exact provider/model; no universal provider support is claimed. Select a JSON/tool-capable chat model and preflight embeddings. Set token/output controls in tested provider options and enforce an account budget. The per-client 60-request allowance is a local guard, not a dollar cap and not a cross-process limit. A second model needs a new client and may incur additional cost.
+
+Without live credentials, search, SQL, access controls, HTTP, SQLite actions and software failure experiments still execute. They do not produce simulated AI answers. Live interpretation, native model tool use, real embeddings and semantic answer quality remain unverified until exercised. Authored fixtures are labelled. The full course requires approved live access; rehearsal is not a substitute for that learning outcome.
+
+## What is supplied
+
+- Ten notebooks including preflight; readable Python modules; fictional policies and orders.
+- Participant worksheets, mini project, two assignments, capstone, assessment criteria and architecture handouts.
+- Software checks, local HTTP deployment and an optional Dockerfile.
+- No cloud provisioning, external payment/action, hosted vector database, enterprise IAM or GPU benchmark is hidden in the package.
+
+All purchasing policies and records are fictional classroom data. The prototype is intentionally small and inspectable. Production deployment requires the additional controls and evidence discussed in the course.
+
+## Groq-only readiness check
+
+Use `verification/groq_live_check.ipynb` to load `GROQ_API_KEY` from Colab Secrets and export a credential-free live report. It needs only the chat key and the matching student ZIP. Embeddings remain a separate check. This extra notebook is a readiness utility in addition to the ten core notebooks.

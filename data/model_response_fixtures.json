@@ -1,0 +1,20 @@
+{
+  "provenance": "Author-written examples of valid and invalid model proposals. These are not real model outputs or a model benchmark.",
+  "valid": {
+    "quarter": "2026-Q1",
+    "supplier": "Nova"
+  },
+  "missing": {
+    "quarter": null,
+    "supplier": "Delta"
+  },
+  "forged_identity": {
+    "quarter": "2026-Q1",
+    "supplier": "Nova",
+    "tenant": "beacon"
+  },
+  "sql_injection": {
+    "quarter": "2026-Q1",
+    "supplier": "Nova' OR 1=1"
+  }
+}

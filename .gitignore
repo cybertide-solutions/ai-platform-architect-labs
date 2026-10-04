@@ -1,8 +1,6 @@
+.venv/
 .env
-.venv*/
+outputs/
 __pycache__/
+*.sqlite
 .ipynb_checkpoints/
-audit_log.jsonl
-baseline_scores.csv
-*.pyc
-.DS_Store

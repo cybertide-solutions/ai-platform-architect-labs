@@ -1,7 +1,9 @@
 # Day 5: Capstone project
 
-**Format:** teams of 4 to 5. 5 hours of design work, then a 15-minute panel review per team, then a 1-hour final quiz.
-**Weight:** 40% of the course assessment.
+**Format:** the same teams as the mini project (4 to 5 people). About 4 hours of design work, then a 15-minute panel
+review per team, then the final quiz (30 minutes, then answers reviewed together).
+**Weight:** 40% of the course assessment (the final quiz is a separate 10%).
+**Before today:** your team chose its case at the end of Day 4, and each of you wrote one ADR (Assignment A3).
 
 ## The task
 Design the AI platform capability for **one** case. You are the architects; the panel plays the CIO, the CISO and the
@@ -11,7 +13,7 @@ business owner.
 |---|---|
 | **A. HR policy assistant** | 12,000 employees of an Indian insurance company ask HR questions in English and Hindi. Policies differ by grade and state. HR data must stay in India. Target: deflect 40% of HR tickets. |
 | **B. Customer support assistant** | An online retailer gets 30,000 support chats a day. Start as a copilot that suggests replies to human agents, then move some topics to direct answers. Refunds above INR 5,000 always need a human. |
-| **C. Client case** | A use case from your own organisation, agreed with the trainer by 10:00. |
+| **C. Client case** | A use case from your own organisation, agreed with the trainer by 10:00 today. Nothing confidential. |
 
 ## What to deliver
 1. **Architecture diagram** of the AI platform layers for your case (Miro, draw.io or slides): identity, gateway,
@@ -25,10 +27,13 @@ business owner.
 
 Optional: a thin working demo built from your lab code (not required, not scored extra; design quality matters most).
 
+**How to present (10 minutes):** one slide or Miro frame per deliverable, in the order above. Share your screen from
+one laptop. Every team member speaks at least once. The panel then asks questions for 5 minutes.
+
 ## Schedule
 | Time | Activity |
 |---|---|
-| 09:15 | Recap quiz and capstone briefing; teams choose a case |
+| 09:15 | Recap quiz; each team confirms its case to the trainer |
 | 09:30 | Work block 1: scope, users, architecture draft |
 | 11:00 | Break |
 | 11:15 | Trainer check-in per team (10 minutes each); work block 2: ADRs, risks |

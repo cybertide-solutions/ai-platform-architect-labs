@@ -7,9 +7,11 @@
 | AI platform (AI OS) | shared capabilities (models, knowledge, tools, guardrails, operations) that many AI applications use |
 | API gateway | entry point that handles authentication, rate limits and routing for APIs |
 | Audit log | a tamper-resistant record of who asked what, what was used and what was answered |
+| Chargeback | billing each business unit internally for its share of AI usage and cost |
 | Chunk | a passage of a document, the unit stored and retrieved in RAG |
 | Citation | a reference from an answer to the passage that supports it |
 | Context window | the maximum tokens a model accepts in one request (prompt plus answer) |
+| Data residency | the requirement that data is stored and processed in a given country or region, for example India |
 | DPDP Act | India's Digital Personal Data Protection Act, 2023 |
 | Embedding | a vector of numbers representing the meaning of a text |
 | EU AI Act | the European Union's risk-based regulation of AI systems |
@@ -17,8 +19,10 @@
 | Faithfulness | whether an answer's claims are supported by the retrieved passages |
 | Few-shot prompting | including a few input and output examples in the prompt |
 | Fine-tuning | further training a model on your examples to change its behaviour or style |
+| Grounding | telling the model to answer only from the supplied passages, and checking that it did |
 | Guardrail | a check on input, retrieved context or output that enforces a rule |
 | Hallucination | a fluent but unsupported or false answer |
+| High-risk AI system | under the EU AI Act, a use such as credit scoring or hiring that carries strict legal duties |
 | Human-in-the-loop | a person approves or reviews before an action takes effect |
 | Hybrid search | combining keyword search and vector search |
 | LLM-as-judge | using a model to grade another model's output against criteria |
@@ -26,14 +30,21 @@
 | Metadata filter | restricting vector search by attributes such as department or access group |
 | Model gateway | a service between applications and model providers that routes, caches, limits and meters calls |
 | Multi-tenancy | one platform serving many teams with separate quotas, data and costs |
+| Non-functional requirement | a quality the system must have (latency, cost ceiling, residency, availability), as opposed to a feature |
 | Open-weight model | a model whose weights are published and can be self-hosted |
+| Overlap | the characters shared by neighbouring chunks, so a sentence cut at a boundary appears whole in one of them |
 | p95 latency | the time within which 95% of requests complete |
 | PII | personally identifiable information |
 | Prompt caching | provider feature that reuses processing of a repeated prompt prefix to reduce cost and latency |
 | Prompt injection | input that manipulates a model into ignoring its instructions; *indirect* when hidden in content it reads |
+| Prompt registry | a versioned store of prompts, so prompt changes are reviewed, tested and released like code |
 | RAG | retrieval-augmented generation: retrieve relevant passages and answer from them |
+| Reasoning model | a model that works through a problem internally before answering; better on hard tasks, slower, and the thinking counts as tokens |
+| Recall at k | how often the right document is among the top k search results; also called hit rate |
 | Release gate | an automated check that blocks a change if test scores drop |
 | Reranker | a model that reorders search results by relevance |
+| Shadow testing | running a new version on real traffic without showing its answers to users, to compare it safely |
+| Showback | reporting each business unit's AI usage and cost to it, without billing (the step before chargeback) |
 | Span | one timed step inside a trace |
 | Structured output | model output in a fixed format such as JSON, often validated against a schema |
 | Temperature | setting that controls randomness of model output |
@@ -42,4 +53,5 @@
 | Tool calling | a model requesting that the application run a described function |
 | Top-k | the number of passages retrieved per question |
 | Vector database | a database that stores embeddings and finds the nearest ones quickly |
+| Vendor exit plan | how you would replace a model, vector database or other provider, and how long it would take |
 | Workflow | a fixed sequence of steps written in code, with models used for specific steps |

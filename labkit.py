@@ -362,6 +362,12 @@ def _load_embedder():
         return _embedder
     if os.environ.get("EMBED_BACKEND", "").lower() != "hash":
         try:
+            # The model is public, so no Hugging Face token is needed. Hide the harmless
+            # "unauthenticated requests to the HF Hub" warning so participants are not worried by it.
+            import logging, warnings
+            os.environ.setdefault("HF_HUB_VERBOSITY", "error")
+            logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+            warnings.filterwarnings("ignore", message=".*unauthenticated.*")
             from model2vec import StaticModel
             _embedder = StaticModel.from_pretrained(EMBED_MODEL_NAME)
             EMBED_INFO.update(backend="model2vec", model=EMBED_MODEL_NAME)
@@ -608,7 +614,7 @@ def run_agent(user_msg: str, tools: dict, *, system: str = "You are a helpful as
 
 PII_PATTERNS = {
     "EMAIL": r"[\w.+-]+@[\w-]+\.[\w.-]+",
-    "CARD": r"\b(?:\d[ -]?){13,16}\b",
+    "CARD": r"\b(?:\d[ -]?){12,15}\d\b",
     "AADHAAR": r"\b\d{4}[ -]?\d{4}[ -]?\d{4}\b",
     "PAN": r"\b[A-Z]{5}\d{4}[A-Z]\b",
     "PHONE": r"(?:\+91[ -]?)?\b[6-9]\d{9}\b",

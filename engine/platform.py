@@ -1,9 +1,9 @@
 """Two applications share admission, model access, failure policy and telemetry."""
 import time,uuid,json
-from .knowledge import ANSWER_PROMPT,evidence_errors
+from .knowledge import ANSWER_PROMPT,render_policy_evidence
 from .purchasing import QUERY_PROMPT
 APPS={
- 'policy':{'roles':{'buyer','finance'},'prompt_version':'policy-v1'},
+ 'policy':{'roles':{'buyer','finance'},'prompt_version':'policy-v2-source-extract'},
  'spend':{'roles':{'finance'},'prompt_version':'query-v1'}}
 class Platform:
     def __init__(self,index,purchases,model=None,index_version='v1',embedder=None,quota=20,clock=time.monotonic):
@@ -28,8 +28,7 @@ class Platform:
                 if not hits:result={'status':'insufficient','answer':'No authorised matching passage.','evidence':[]}
                 elif self.model:
                     result=self.model.json(ANSWER_PROMPT,json.dumps({'question':question,'passages':[{'id':r['id'],'text':r['text']} for r in hits]}))
-                    errors=evidence_errors(result,hits)
-                    if errors:result={'status':'invalid_model_output','errors':errors}
+                    result=render_policy_evidence(result,hits)
                 else:result={'status':'evidence_only','passages':hits,'note':'Search result, not a generated answer.'}
                 if result['status'] in ('answered','insufficient','evidence_only'):self.cache[ck]=dict(result)
                 result=dict(result,cache=False)

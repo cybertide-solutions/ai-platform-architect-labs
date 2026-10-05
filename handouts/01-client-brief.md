@@ -11,7 +11,7 @@ A fictional manufacturing group wants buyers to understand purchasing rules and 
 
 ## Starting facts
 
-There are 11 source records, including an inactive old policy, one unapproved malicious vendor note and a finance-only discount. Seven fictional purchase orders span two tenants. Amounts are integer minor currency units. The source manifest is a trusted ingestion artifact in this lab; a production system must validate ownership, provenance and permissions upstream.
+There are 11 source records, including an inactive old policy, one unapproved malicious vendor note and a finance-only discount. Six fictional purchase orders span two tenants. Amounts are integer minor currency units. The source manifest is a trusted ingestion artifact in this lab; a production system must validate ownership, provenance and permissions upstream.
 
 ## Classroom assumptions, to challenge
 

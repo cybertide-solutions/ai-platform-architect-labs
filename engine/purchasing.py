@@ -21,17 +21,50 @@ class Purchases:
         # Never execute model-generated SQL. Tenant is exclusively trusted server context.
         total,count=self.db.execute('SELECT COALESCE(SUM(amount_minor),0),COUNT(*) FROM orders WHERE tenant=? AND quarter=? AND (? IS NULL OR supplier=?)',
             (who.tenant,args['quarter'],args['supplier'],args['supplier'])).fetchone()
-        return {'status':'ok','currency':'INR','total_minor':total,'order_count':count,'quarter':args['quarter'],'supplier':args['supplier'],'source':'orders snapshot 2026-07-01'}
+        return {'status':'ok','currency':'INR','minor_unit':'paise','total_minor':total,
+            'total_display':format_inr(total),'order_count':count,'quarter':args['quarter'],
+            'supplier':args['supplier'],'source':'orders snapshot 2026-07-01',
+            'measure':'recorded purchase-order amounts; not proof of payments'}
     def close(self):self.db.close()
 TOOLS=[{'type':'function','function':{'name':'spend_summary','description':'Read an authorised spend summary for a quarter. Identity is supplied by the service.',
  'parameters':{'type':'object','additionalProperties':False,'properties':{'quarter':{'type':'string','enum':['2026-Q1','2026-Q2']},'supplier':{'type':['string','null'],'enum':['Nova','Delta',None]}},'required':['quarter','supplier']}}}]
 def dispatch(name,args,who,purchases):
     return purchases.summary(who,args) if name=='spend_summary' else {'status':'tool_denied'}
+
+def format_inr(total_minor):
+    """The database stores integer paise. Format rupees without floating point or a model."""
+    if type(total_minor) is not int or total_minor < 0:
+        raise ValueError('Spend must be nonnegative integer paise.')
+    rupees,paise=divmod(total_minor,100)
+    digits=str(rupees)
+    if len(digits)>3:
+        groups=[];head=digits[:-3]
+        while head:
+            groups.insert(0,head[-2:]);head=head[:-2]
+        digits=','.join(groups+[digits[-3:]])
+    return f'INR {digits}.{paise:02d}'
+
+def render_spend_summary(result):
+    if result.get('status')!='ok' or result.get('currency')!='INR':
+        raise ValueError('An authorised successful INR summary is required.')
+    amount=format_inr(result['total_minor'])
+    supplier=result['supplier'] or 'All suppliers'
+    return (f"{supplier}, {result['quarter']}: {amount} across {result['order_count']} orders. "
+            f"Source: {result['source']}.")
+
 def bounded_agent(client,question,who,purchases,max_steps=3):
-    history=[{'role':'system','content':'Use spend_summary for exact financial facts. Never invent a total, identity or approval.'},{'role':'user','content':question}];trace=[]
+    history=[{'role':'system','content':'Use spend_summary for financial facts. total_minor is integer paise (100 paise = 1 INR). Never invent a total, identity or approval. The service renders financial answers from tool results.'},{'role':'user','content':question}];trace=[]
     for step in range(max_steps):
         message=client.message(history,tools=TOOLS);calls=message.get('tool_calls') or []
-        if not calls:return {'status':'complete','answer':message.get('content',''),'trace':trace}
+        if not calls:
+            # Model prose is not a financial authority. Only executed, validated tools
+            # supply the displayed answer; a tool-free guess is never marked complete.
+            facts=[t['result'] for t in trace if t['tool']=='spend_summary' and t['result'].get('status')=='ok']
+            if not facts:return {'status':'no_supported_result','answer':'No successful authorised spend query. Clarify the request.','trace':trace}
+            if any(t['result'].get('status')!='ok' for t in trace):
+                return {'status':'clarify','answer':'At least one requested tool operation was not successful. Review the trace and clarify the request.','trace':trace}
+            answers=list(dict.fromkeys(render_spend_summary(f) for f in facts))
+            return {'status':'complete','answer':'\n'.join(answers),'answer_mode':'tool_facts','trace':trace}
         if len(calls)>3:return {'status':'limit','trace':trace}
         history.append(message)
         for call in calls:

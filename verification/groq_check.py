@@ -7,14 +7,13 @@ from engine.purchasing import QUERY_PROMPT,Purchases,bounded_agent
 from engine.knowledge import Index
 from engine.platform import Platform
 from engine.identity import FINANCE
-from engine.evaluate import semantic_review
 
 class StopVerification(Exception):pass
 
 def run(key,model='openai/gpt-oss-20b',output='outputs/groq-live-report.json'):
     client=ModelClient('https://api.groq.com/openai/v1',model,key,max_calls=30,timeout=45)
     report={'date_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'provider':'Groq','model':model,
-        'provenance':'actual live calls by the person running this script','extraction':[],
+        'provenance':'actual live calls by the person running this script','verification_version':'live-readiness-v2','extraction':[],
         'embeddings':'not tested: configure a separate embedding model',
         'semantic_acceptance':'pending independent review of actual answers'}
     def blocked(exc):
@@ -40,8 +39,12 @@ def run(key,model='openai/gpt-oss-20b',output='outputs/groq-live-report.json'):
         try:
             result=bounded_agent(client,'Use spend_summary to find Nova spend in 2026-Q1.',FINANCE,db)
             observed=any(t['tool']=='spend_summary' and t['result'].get('total_minor')==6500000 for t in result['trace'])
+            expected_answer='Nova, 2026-Q1: INR 65,000.00 across 2 orders. Source: orders snapshot 2026-07-01.'
             report['native_tools']={'actual':result,'expected_tool_total_observed':observed,
-                                    'final_prose_accuracy':'requires human comparison with tool facts'}
+                'expected_display_answer':expected_answer,
+                'display_answer_matches_expected':result.get('status')=='complete' and result.get('answer')==expected_answer,
+                'display_answer_mode':result.get('answer_mode'),
+                'meaning':'Tool execution and the final displayed financial answer are checked separately.'}
         except Exception as exc:
             report['native_tools']={'status':'not_evaluated','error_type':type(exc).__name__}
             if isinstance(exc,RuntimeError):report['native_tools']['diagnostic']=str(exc)
@@ -55,7 +58,8 @@ def run(key,model='openai/gpt-oss-20b',output='outputs/groq-live-report.json'):
             before=len(client.calls)
             result=platform.ask(who,'policy',case['question'])
             report['policy_answers'].append({'case':case['id'],'question':case['question'],'expected':case['expected'],
-                'actual':result,'human_correct':None,'human_supported':None,'human_complete':None})
+                'actual':result,'human_correct':None,'human_supported':None,'human_complete':None,
+                'review_instruction':'Review the displayed source excerpts and scope_note for relevance, coverage and current policy. Source extraction does not establish completeness.'})
             if len(client.calls)>before and client.calls[-1].get('http_status') in (401,403,429):
                 event=client.calls[-1]
                 blocked(ModelError(event.get('diagnostic','Provider access blocked'),event['http_status'],event.get('provider_code')))
@@ -74,7 +78,10 @@ def run(key,model='openai/gpt-oss-20b',output='outputs/groq-live-report.json'):
     report['summary']={'run_status':'blocked' if 'blocked' in report else 'completed',
         'extraction_passes':sum(r.get('matches_label') is True for r in report['extraction']),
         'extraction_evaluated':sum(r.get('status')=='evaluated' for r in report['extraction']),
-        'extraction_cases':len(cases),'requests_attempted':len(client.calls)}
+        'extraction_cases':len(cases),'requests_attempted':len(client.calls),
+        'tool_total_correct':report['native_tools'].get('expected_tool_total_observed'),
+        'displayed_spend_correct':report['native_tools'].get('display_answer_matches_expected'),
+        'policy_semantic_review':'pending','embeddings_tested':False}
     path=Path(output);path.parent.mkdir(exist_ok=True,parents=True)
     serialized=json.dumps(report,indent=2)
     if key:serialized=serialized.replace(key,'[REDACTED]')

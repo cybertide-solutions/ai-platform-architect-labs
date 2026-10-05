@@ -24,6 +24,8 @@ The default software rehearsal needs no API key. For live AI, configure the priv
 | Session 10 | [Economics](notebooks/09_economics.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/09_economics.ipynb) |
 | Live readiness | [Groq verification](verification/groq_live_check.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/verification/groq_live_check.ipynb) |
 
+Read [the worked business cases](handouts/05-worked-business-cases.md) before the labs. It explains the users, source records, exact amounts and expected decisions.
+
 Session 1 uses [the client brief](handouts/01-client-brief.md). Sessions 11–12 use [the capstone workbook](handouts/04-projects-and-assessment.md). The [learning journey](handouts/02-learning-journey.md) maps all sessions to outcomes.
 
 Save a copy of your notebook to Drive if you want to retain edits. Download evidence from `outputs/` before discarding a runtime: runtime files are temporary. Running setup again reuses existing course files and does not overwrite your work. For a fresh course download, save your work first, then disconnect/delete the runtime and reopen the notebook.
@@ -58,7 +60,7 @@ The second command executes code cells in isolated Python processes without a no
 
 ## Colab secrets for live AI
 
-Software rehearsal needs no secrets. For the **Groq verification** notebook, add `GROQ_API_KEY` in Colab's Secrets panel (key icon), enable notebook access, set `RUN_LIVE=True` and run the cells. Its first cell fetches the course files automatically; the final cell downloads a report without the key.
+Software rehearsal needs no secrets. For the **Groq verification** notebook, add `GROQ_API_KEY` in Colab's Secrets panel (key icon), enable notebook access, set `RUN_LIVE=True` and choose **Runtime → Run all**. Its first cell fetches the course files automatically; the final cell downloads a report without the key.
 
 For the **core live labs**, use the trainer-approved CHAT_URL, CHAT_MODEL and CHAT_KEY, plus the separate EMBED_URL, EMBED_MODEL and EMBED_KEY. Save those six names in Colab Secrets, grant access, and set USE_COLAB_SECRETS=True in the notebook's setup cell. The main preflight requires both chat and embedding capabilities. Never put credentials in a code cell or GitHub. Secret access and runtime variables do not automatically carry across unrelated runtimes.
 
@@ -91,3 +93,9 @@ All purchasing policies and records are fictional classroom data. The prototype 
 ## Groq-only readiness check
 
 Use `verification/groq_live_check.ipynb` to load `GROQ_API_KEY` from Colab Secrets and export a credential-free live report. It needs only the chat key; course files download automatically. Embeddings remain a separate check. This extra notebook is a readiness utility in addition to the ten core notebooks.
+
+## Answer display controls
+
+Purchase-order totals are stored as integer paise and displayed by code: 6,500,000 paise = INR 65,000.00. The spend tool returns both total_minor and total_display. The agent uses authorised tool facts for its displayed answer, discarding model-generated financial prose. The policy service displays complete selected approved source excerpts with a scope_note. Missing excerpt information does not prove that the full contract lacks a term. Review source relevance, coverage and freshness independently.
+
+The revised Groq report identifies itself as live-readiness-v2 and checks the tool amount and displayed amount separately. Embeddings and human policy review remain separate requirements.

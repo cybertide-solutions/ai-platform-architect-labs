@@ -2,12 +2,31 @@
 
 A fresh 36-hour programme for solution architects: twelve three-hour weekday sessions. Build two applications on a shared platform and use evidence to defend architecture decisions.
 
-## Start here
+## Start in Google Colab
 
-1. Read `handouts/01-client-brief.md` and `handouts/02-learning-journey.md`.
-2. Complete `notebooks/00_preflight.ipynb` 3–5 working days before class.
-3. Work through notebooks 01–09 in session order. Session 1 is a workshop; sessions 11–12 use the capstone workbook.
-4. Keep your decisions, measurements and changes in `outputs/`. Never commit keys or sensitive customer data.
+1. Click **Open in Colab** beside the required lab below. Start with **Preflight**.
+2. Connect to a runtime if prompted, then run the notebook's **first code cell**. It downloads the course code and data automatically. Use a standard CPU runtime; these labs do not require a GPU.
+3. Continue through the cells in order. You do not need to upload a ZIP, install Python locally or paste setup code.
+
+The default software rehearsal needs no API key. For live AI, configure the private provider secrets described below. Opening Colab may require signing into your Google account; if it asks permission to run a GitHub notebook, review the notebook and confirm to proceed.
+
+| When | Lab | Launch |
+| --- | --- | --- |
+| Before class | [Preflight](notebooks/00_preflight.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/00_preflight.ipynb) |
+| Session 2 | [Models and serving](notebooks/01_model_and_serving.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/01_model_and_serving.ipynb) |
+| Session 3 | [Data plane](notebooks/02_data_plane.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/02_data_plane.ipynb) |
+| Session 4 | [Mini project](notebooks/03_mini_knowledge_service.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/03_mini_knowledge_service.ipynb) |
+| Session 5 | [Tools and state](notebooks/04_tools_and_state.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/04_tools_and_state.ipynb) |
+| Session 6 | [Shared platform](notebooks/05_shared_platform.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/05_shared_platform.ipynb) |
+| Session 7 | [Release engineering](notebooks/06_release_engineering.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/06_release_engineering.ipynb) |
+| Session 8 | [Reliability](notebooks/07_reliability.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/07_reliability.ipynb) |
+| Session 9 | [Deployment](notebooks/08_deployment.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/08_deployment.ipynb) |
+| Session 10 | [Economics](notebooks/09_economics.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/notebooks/09_economics.ipynb) |
+| Live readiness | [Groq verification](verification/groq_live_check.ipynb) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cybertide-solutions/ai-platform-architect-labs/blob/main/verification/groq_live_check.ipynb) |
+
+Session 1 uses [the client brief](handouts/01-client-brief.md). Sessions 11–12 use [the capstone workbook](handouts/04-projects-and-assessment.md). The [learning journey](handouts/02-learning-journey.md) maps all sessions to outcomes.
+
+Save a copy of your notebook to Drive if you want to retain edits. Download evidence from `outputs/` before discarding a runtime: runtime files are temporary. Running setup again reuses existing course files and does not overwrite your work. For a fresh course download, save your work first, then disconnect/delete the runtime and reopen the notebook.
 
 ## Local setup
 
@@ -37,9 +56,11 @@ python scripts/check_notebooks.py
 
 The second command executes code cells in isolated Python processes without a notebook UI. It is a rehearsal check, not a test of Colab/Jupyter rendering or live APIs.
 
-## Colab setup
+## Colab secrets for live AI
 
-Upload this ZIP to a new Colab session. Extract it with Python's `zipfile.ZipFile(...).extractall('/content')`; the ZIP contains a top-level `ai-platform-architect-labs` directory. Upload/open the desired notebook in Colab. Its setup cell locates `/content/ai-platform-architect-labs`. For repeatable Colab use, save CHAT_URL, CHAT_MODEL, CHAT_KEY, EMBED_URL, EMBED_MODEL and EMBED_KEY in Colab Secrets, grant notebook access, and set USE_COLAB_SECRETS=True in each notebook setup cell. Alternatively, use the private preflight prompt in each runtime; values do not automatically persist across separate runtimes. Alternatively, after this version is published, clone `https://github.com/cybertide-solutions/ai-platform-architect-labs` into `/content/ai-platform-architect-labs`. The existing repository is not assumed to have these files yet. Colab itself has not been exercised in the supplied verification.
+Software rehearsal needs no secrets. For the **Groq verification** notebook, add `GROQ_API_KEY` in Colab's Secrets panel (key icon), enable notebook access, set `RUN_LIVE=True` and run the cells. Its first cell fetches the course files automatically; the final cell downloads a report without the key.
+
+For the **core live labs**, use the trainer-approved CHAT_URL, CHAT_MODEL and CHAT_KEY, plus the separate EMBED_URL, EMBED_MODEL and EMBED_KEY. Save those six names in Colab Secrets, grant access, and set USE_COLAB_SECRETS=True in the notebook's setup cell. The main preflight requires both chat and embedding capabilities. Never put credentials in a code cell or GitHub. Secret access and runtime variables do not automatically carry across unrelated runtimes.
 
 ## Live AI configuration
 
@@ -69,4 +90,4 @@ All purchasing policies and records are fictional classroom data. The prototype 
 
 ## Groq-only readiness check
 
-Use `verification/groq_live_check.ipynb` to load `GROQ_API_KEY` from Colab Secrets and export a credential-free live report. It needs only the chat key and the matching student ZIP. Embeddings remain a separate check. This extra notebook is a readiness utility in addition to the ten core notebooks.
+Use `verification/groq_live_check.ipynb` to load `GROQ_API_KEY` from Colab Secrets and export a credential-free live report. It needs only the chat key; course files download automatically. Embeddings remain a separate check. This extra notebook is a readiness utility in addition to the ten core notebooks.

@@ -3,7 +3,7 @@ from pathlib import Path
 import json,subprocess,sys,os,tempfile,time
 root=Path(__file__).resolve().parents[1]
 results=[]
-for path in sorted((root/'notebooks').glob('*.ipynb')):
+for path in sorted((root/'notebooks').glob('*.ipynb')) + sorted((root/'verification').glob('*.ipynb')):
     book=json.loads(path.read_text());cells=[(''.join(c['source']),i) for i,c in enumerate(book['cells']) if c['cell_type']=='code']
     script='\n'.join(f"exec(compile({src!r}, {str(path.name+':cell'+str(i))!r}, 'exec'))" for src,i in cells)
     env=dict(os.environ,LIVE_MODE='0')

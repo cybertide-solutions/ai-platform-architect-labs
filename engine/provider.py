@@ -1,7 +1,34 @@
 """A small real Chat Completions/embeddings REST adapter with explicit configuration."""
-import json, os, time, urllib.request, urllib.error
+import json, os, time, re, urllib.request, urllib.error
 from dataclasses import dataclass, field
-class ModelError(RuntimeError): pass
+USER_AGENT = 'Cybertide-Architect-Labs/1.1 (+https://github.com/cybertide-solutions/ai-platform-architect-labs)'
+class ModelError(RuntimeError):
+    def __init__(self, message, http_status=None, provider_code=None):
+        super().__init__(message)
+        self.http_status = http_status
+        self.provider_code = provider_code
+
+def provider_error_detail(exc, api_key):
+    # Keep bounded provider diagnostics, never request headers or a raw HTML error page.
+    raw = exc.read(16384).decode('utf-8', errors='replace')
+    if api_key:
+        raw = raw.replace(api_key, '[REDACTED]')
+    raw = re.sub(r'gsk_[A-Za-z0-9_-]+', '[REDACTED]', raw)
+    if re.search(r'error code\s*:\s*1010\b', raw, re.I):
+        return '1010', 'Cloudflare rejected the HTTP client signature. If this persists with the identified API client, contact Groq support.'
+    try:
+        body = json.loads(raw)
+        error = body.get('error', {}) if isinstance(body, dict) else {}
+        if isinstance(error, dict):
+            code = error.get('code') or error.get('type')
+            code = str(code)[:120] if isinstance(code, (str, int)) else None
+            message = error.get('message')
+            if isinstance(message, str):
+                return code, ' '.join(message.split())[:500]
+    except (ValueError, TypeError):
+        pass
+    return None, 'No structured provider diagnostic was returned. Check provider access or contact support.'
+
 @dataclass
 class ModelClient:
     base_url: str
@@ -21,13 +48,18 @@ class ModelClient:
         row={'model':self.model,'endpoint':endpoint,'status':'error'};start=time.perf_counter()
         try:
             req=urllib.request.Request(self.base_url.rstrip('/')+'/'+endpoint,
-                data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+self.api_key})
+                data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':USER_AGENT,'Authorization':'Bearer '+self.api_key})
             with urllib.request.urlopen(req,timeout=self.timeout) as response: data=json.load(response)
             row.update(status='ok',usage=data.get('usage',{}))
             return data
         except urllib.error.HTTPError as exc:
             row['http_status']=exc.code
-            raise ModelError(f'Provider HTTP {exc.code}. Review account, quota and capabilities; no automatic retry.') from None
+            try:
+                provider_code, detail = provider_error_detail(exc, self.api_key)
+            finally:
+                exc.close()
+            row.update(provider_code=provider_code, diagnostic=detail)
+            raise ModelError(f'Provider HTTP {exc.code}: {detail}', http_status=exc.code, provider_code=provider_code) from None
         except (urllib.error.URLError,TimeoutError):
             raise ModelError('Provider unavailable or request timed out.') from None
         finally:
